@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EPT Foundation — 4-Week Plan</title>
+<meta name="theme-color" content="#2C7CC4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="EPT Training">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F7F9FC; --card:#FFFFFF; --ink:#18212E; --muted:#667385; --line:#E4E9F0;
+    --blue:#2C7CC4; --blue-soft:#E7F1FB; --orange:#F2924A; --orange-soft:#FDF0E6;
+    --green:#2E9E6A; --green-soft:#E5F5EC; --gray-soft:#EEF1F5;
+    --r:16px; --shadow:0 1px 2px rgba(24,33,46,.05),0 4px 14px rgba(24,33,46,.05);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Outfit,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.4}
+  h1,h2,h3{font-family:Sora,Outfit,system-ui,sans-serif;margin:0;letter-spacing:-.01em}
+  button{font:inherit;color:inherit;cursor:pointer}
+  .wrap{max-width:560px;margin:0 auto;padding:0 16px calc(110px + env(safe-area-inset-bottom))}
+
+  /* Header */
+  header{position:sticky;top:0;z-index:20;background:rgba(247,249,252,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+  .hdr{max-width:560px;margin:0 auto;padding:12px 16px 10px;display:flex;align-items:center;gap:12px}
+  .logo{width:38px;height:38px;border-radius:10px;background:linear-gradient(180deg,#4296DE,#256CB2);display:grid;place-items:center;color:#fff;font:700 13px Sora,sans-serif;position:relative;flex:none}
+  .logo::after{content:"";position:absolute;bottom:8px;left:11px;right:11px;height:2px;border-radius:2px;background:var(--orange)}
+  .brand{flex:1;min-width:0}
+  .brand small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .brand h1{font-size:18px}
+  .iconbtn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;flex:none}
+  .weeks{max-width:560px;margin:0 auto;padding:0 16px 10px;display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+  .wk{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:7px 4px 6px;text-align:center}
+  .wk b{display:block;font:600 14px Sora,sans-serif}
+  .wk span{font-size:11px;color:var(--muted)}
+  .wk.on{background:var(--blue);border-color:var(--blue);color:#fff}
+  .wk.on span{color:rgba(255,255,255,.85)}
+  .wk.now:not(.on){border-color:var(--blue)}
+
+  /* Day strip */
+  .days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:14px 0 12px}
+  .day{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:8px 0 7px;text-align:center;position:relative}
+  .day .dn{font-size:12px;font-weight:600;color:var(--muted)}
+  .day .dt{width:8px;height:8px;border-radius:50%;margin:6px auto 0;background:#C9D1DC}
+  .day.lift .dt{background:var(--orange)}
+  .day.walk .dt{background:var(--blue)}
+  .day.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+  .day.on .dn{color:var(--ink)}
+  .day.done .dt{background:var(--green);width:14px;height:14px;margin-top:3px;display:grid;place-items:center}
+  .day.done .dt::after{content:"";width:6px;height:3px;border:2px solid #fff;border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+  .day .today{position:absolute;top:-7px;left:50%;transform:translateX(-50%);font-size:9px;font-weight:600;background:var(--ink);color:#fff;border-radius:6px;padding:1px 5px;letter-spacing:.03em}
+
+  /* Cards */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px;margin-bottom:12px}
+  .weekbar{background:var(--blue-soft);border:0;box-shadow:none}
+  .weekbar h2{font-size:15px;color:var(--blue)}
+  .weekbar p{margin:4px 0 0;font-size:14px;color:#2B4A66}
+  .sess-h{display:flex;align-items:flex-start;gap:12px}
+  .tag{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border-radius:20px;padding:3px 9px;display:inline-block}
+  .tag.lift{background:var(--orange-soft);color:#B35A16}
+  .tag.walk{background:var(--blue-soft);color:var(--blue)}
+  .tag.rest{background:var(--gray-soft);color:var(--muted)}
+  .sess-h h2{font-size:21px;margin-top:6px}
+  .sess-h p{margin:4px 0 0;color:var(--muted);font-size:14px}
+  .bar{height:6px;background:var(--gray-soft);border-radius:6px;margin-top:14px;overflow:hidden}
+  .bar i{display:block;height:100%;background:var(--green);border-radius:6px;transition:width .3s}
+
+  details.warm{background:var(--card);border:1px solid var(--line);border-radius:var(--r);margin-bottom:12px}
+  details.warm summary{list-style:none;padding:14px 16px;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+  details.warm summary::-webkit-details-marker{display:none}
+  details.warm summary::after{content:"+";font-size:20px;color:var(--muted);font-weight:400}
+  details.warm[open] summary::after{content:"–"}
+  details.warm ol{margin:0;padding:0 16px 14px 36px;color:#334155;font-size:15px}
+  details.warm li{margin:4px 0}
+
+  .ex{padding:14px 16px}
+  .ex-top{display:flex;gap:12px;align-items:flex-start}
+  .num{width:26px;height:26px;border-radius:50%;background:var(--gray-soft);color:var(--muted);font:600 13px Sora,sans-serif;display:grid;place-items:center;flex:none;margin-top:1px}
+  .ex.complete .num{background:var(--green);color:#fff}
+  .ex-name{font-weight:600;font-size:16px}
+  .ex-rx{font:600 14px Sora,sans-serif;color:var(--blue);margin-top:2px}
+  .ex-note{font-size:14px;color:var(--muted);margin-top:3px}
+  .ex-row{display:flex;align-items:center;gap:10px;margin-top:12px;padding-left:38px;flex-wrap:wrap}
+  .wt{display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+  .wt input{width:64px;border:0;padding:9px 4px 9px 10px;font:600 16px Outfit,sans-serif;color:var(--ink);background:transparent;outline:none}
+  .wt span{font-size:13px;color:var(--muted);padding-right:10px}
+  .last{font-size:12px;color:var(--muted);flex-basis:100%;margin-top:-4px}
+  .sets{display:flex;gap:8px;margin-left:auto}
+  .set{width:36px;height:36px;border-radius:50%;border:2px solid var(--line);background:#fff;font:600 13px Sora,sans-serif;color:var(--muted);display:grid;place-items:center;transition:all .15s}
+  .set.on{background:var(--green);border-color:var(--green);color:#fff}
+
+  .lbl{font-weight:600;font-size:15px;margin-bottom:8px;display:flex;justify-content:space-between}
+  .lbl output{font:600 15px Sora,sans-serif;color:var(--blue)}
+  input[type=range]{width:100%;accent-color:var(--blue)}
+  .scale{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+  textarea{width:100%;min-height:72px;border:1px solid var(--line);border-radius:10px;padding:10px;font:15px Outfit,sans-serif;resize:vertical;color:var(--ink);margin-top:6px}
+  .hint{font-size:13px;color:var(--muted);margin-top:6px}
+
+  .btn{display:block;width:100%;border:0;border-radius:14px;padding:15px;font-weight:600;font-size:16px;background:var(--ink);color:#fff}
+  .btn.done{background:var(--green-soft);color:var(--green)}
+  .btn.ghost{background:var(--card);border:1px solid var(--line);color:var(--ink)}
+  .btn.blue{background:var(--blue)}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+  /* Walk timer */
+  .ring{position:relative;width:230px;height:230px;margin:10px auto 6px}
+  .ring svg{transform:rotate(-90deg)}
+  .ring .t{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+  .ring .t b{font:700 46px Sora,sans-serif;letter-spacing:-.02em;display:block}
+  .ring .t small{color:var(--muted);font-size:13px}
+  .walkspecs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+  .spec{background:var(--bg);border-radius:12px;padding:10px;text-align:center}
+  .spec b{display:block;font:600 17px Sora,sans-serif}
+  .spec span{font-size:12px;color:var(--muted)}
+
+  .check{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}
+  .check:first-of-type{border-top:0}
+  .check input{width:22px;height:22px;accent-color:var(--green);flex:none;margin-top:1px}
+
+  /* Rest timer */
+  .resttimer{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:30;max-width:536px;margin:0 auto;background:var(--ink);color:#fff;border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:12px;box-shadow:0 10px 30px rgba(0,0,0,.25);transform:translateY(150%);transition:transform .25s}
+  .resttimer.show{transform:none}
+  .resttimer .rt{font:700 26px Sora,sans-serif;min-width:70px}
+  .resttimer .rl{flex:1;font-size:14px;opacity:.85}
+  .resttimer button{background:rgba(255,255,255,.14);border:0;color:#fff;border-radius:10px;padding:8px 12px;font-weight:600;font-size:14px}
+  .resttimer.end{background:var(--green)}
+
+  /* Sheet */
+  .sheet-bg{position:fixed;inset:0;background:rgba(24,33,46,.4);z-index:40;display:none}
+  .sheet{position:fixed;left:0;right:0;bottom:0;z-index:41;max-height:88vh;overflow:auto;background:var(--bg);border-radius:20px 20px 0 0;padding:18px 18px calc(24px + env(safe-area-inset-bottom));transform:translateY(105%);transition:transform .25s;max-width:600px;margin:0 auto}
+  .sheet.show{transform:none}
+  .sheet-bg.show{display:block}
+  .sheet h2{font-size:20px;margin-bottom:12px}
+  .sheet h3{font-size:15px;margin:0 0 6px}
+  .sheet ul,.sheet ol{margin:0;padding-left:20px;font-size:15px;color:#334155}
+  .sheet li{margin:4px 0}
+  .sheet .card p{margin:0;font-size:15px;color:#334155}
+  .grab{width:40px;height:5px;border-radius:5px;background:#CDD5DF;margin:-6px auto 12px}
+  input[type=date]{font:16px Outfit,sans-serif;border:1px solid var(--line);border-radius:10px;padding:9px 10px;width:100%;background:#fff;color:var(--ink)}
+  .danger{color:#C2410C;background:transparent;border:1px solid #F3C9B0}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr">
+    <div class="logo" aria-hidden="true">EPT</div>
+    <div class="brand"><small>Evolution Performance Training</small><h1>Foundation Phase</h1></div>
+    <button class="iconbtn" id="infoBtn" aria-label="Program guide">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+    </button>
+  </div>
+  <nav class="weeks" id="weeks"></nav>
+</header>
+
+<main class="wrap">
+  <div class="days" id="days"></div>
+  <div id="view"></div>
+</main>
+
+<div class="resttimer" id="rest">
+  <div class="rt" id="restT">1:30</div>
+  <div class="rl" id="restL">Rest</div>
+  <button id="restAdd">+15s</button>
+  <button id="restSkip">Skip</button>
+</div>
+
+<div class="sheet-bg" id="sheetBg"></div>
+<div class="sheet" id="sheet" role="dialog" aria-label="Program guide"></div>
+
+<script>
+/* ============ PROGRAM DATA ============ */
+const DAYS = ['mon','tue','wed','thu','fri','sat','sun'];
+const DAY_NAMES = {mon:'Mon',tue:'Tue',wed:'Wed',thu:'Thu',fri:'Fri',sat:'Sat',sun:'Sun'};
+const DAY_FULL = {mon:'Monday',tue:'Tuesday',wed:'Wednesday',thu:'Thursday',fri:'Friday',sat:'Saturday',sun:'Sunday'};
+const WALK_MIN = 30;
+
+// x(name, sets, reps, note) — first two exercises of each day are "main lifts" (90s rest), the rest 60s
+const x = (name, sets, reps, note='') => ({name, sets, reps, note});
+
+const WEEKS = [
+  { // WEEK 1
+    title:'Week 1 · Learn the movements',
+    focus:'2 sets of everything at 5/10 effort (about 5 reps left in the tank). Clean form and finding starting weights.',
+    effort:'Effort 5/10',
+    walkNote:'If 10% feels too hard this first week, use 8% and build up.',
+    A:[ x('Goblet squat to bench',2,'10','Start with the 18 lb KB. Sit back to the bench, touch lightly, stand.'),
+        x('DB floor press, neutral grip',2,'10','Start about 15 lb each. Elbows about 45° from the body.'),
+        x('Seated cable row, neutral handle',2,'12','Squeeze shoulder blades together, no shrugging.'),
+        x('DB Romanian deadlift',2,'10','Start about 20 lb each. Hips back, soft knees, flat back.'),
+        x('Single-leg calf raise',2,'10 per leg','Bodyweight. Ball of the foot on a stair or plate edge, hold the rack. Full range: heel low to high, 2-sec pause at the top.'),
+        x('Cable face pull',2,'15','Light. Rope to forehead, thumbs back.'),
+        x('Dead bug',2,'8 per side','Low back stays flat on the floor.') ],
+    B:[ x('KB deadlift',2,'10','44 lb KB between the feet.'),
+        x('KB swing',2,'10','18 lb KB. Hike it back, snap the hips, let the bell float to chest height. It\u2019s a hinge, not a squat or a front raise.'),
+        x('Lat pulldown, neutral grip',2,'10–12','Pull to upper chest. Stop short of any shoulder pinch at the top.'),
+        x('Split squat, holding the rack',2,'8 per leg','Bodyweight.'),
+        x('Half-kneeling DB press',2,'10 per side','Start 8–10 lb. Palm facing in, press up and slightly forward. Right side: stop below any pinch, go lighter if needed.'),
+        x('DB glute bridge',2,'12','Pause 2 sec at the top.'),
+        x('Farmer carry',2,'30 sec','About 20 lb each hand. Stand tall.') ],
+    C:[ x('Pistol squat to bench',2,'5 per leg','Sit down to the bench on one leg, other leg out front, then stand. Hold the rack for balance. Use the other foot to help as needed.'),
+        x('Incline push-up on the racked bar',2,'8','Bar set high.'),
+        x('Single-arm cable row',2,'10 per side',''),
+        x('Cable pull-through',2,'12','Hips back, then squeeze glutes.'),
+        x('90/90 external rotation',2,'12 per side','5 lb plate. Elbow supported at shoulder height, bent 90°. Rotate up slowly, 2 sec down. Right side: stop short of any pinch, or go plate-free.'),
+        x('Suitcase carry',2,'30 sec per side','About 20 lb. Don’t lean.'),
+        x('Side plank from the knees',2,'20 sec per side','') ]
+  },
+  { // WEEK 2
+    title:'Week 2 · Groove the technique',
+    focus:'Add a third set to everything at 6/10 effort (about 4 reps left). Keep last week’s weights unless a lift felt too easy.',
+    effort:'Effort 6/10',
+    walkNote:'',
+    A:[ x('Goblet squat to bench',3,'10',''),
+        x('DB floor press, neutral grip',3,'10',''),
+        x('Seated cable row, neutral handle',3,'12','Pause 1 sec at the chest.'),
+        x('DB Romanian deadlift',3,'10',''),
+        x('Single-leg calf raise',3,'10 per leg',''),
+        x('Cable face pull',2,'15',''),
+        x('Dead bug',3,'8 per side','') ],
+    B:[ x('KB deadlift',3,'10','44 lb KB.'),
+        x('KB swing',3,'10','18 lb KB.'),
+        x('Lat pulldown, neutral grip',3,'10–12',''),
+        x('Split squat, holding the rack',3,'8 per leg','Add light DBs if bodyweight was easy.'),
+        x('Half-kneeling DB press',3,'10 per side',''),
+        x('DB glute bridge',3,'12',''),
+        x('Farmer carry',3,'30 sec','') ],
+    C:[ x('Pistol squat to bench',3,'5 per leg','Same setup. Less help from the free leg.'),
+        x('Incline push-up on the racked bar',3,'8',''),
+        x('Single-arm cable row',3,'10 per side',''),
+        x('Cable pull-through',3,'12',''),
+        x('90/90 external rotation',2,'12 per side',''),
+        x('Suitcase carry',3,'30 sec per side',''),
+        x('Side plank from the knees',3,'20 sec per side','') ]
+  },
+  { // WEEK 3
+    title:'Week 3 · First weight increases',
+    focus:'3 sets at 6–7/10 effort. Add weight where every rep was clean in week 2: +5–10 lb lower body, +2.5–5 lb (or next DB) upper body. Hold the weight on anything that bothered the shoulder.',
+    effort:'Effort 6–7/10',
+    walkNote:'Try nudging the speed up 0.1–0.2 mph.',
+    A:[ x('Goblet squat to bench',3,'10','Move to a 20–25 lb DB if the 18 lb KB is easy.'),
+        x('DB floor press, neutral grip',3,'10','Next DB size if earned.'),
+        x('Seated cable row, neutral handle',3,'12',''),
+        x('DB Romanian deadlift',3,'10','+5 lb each hand if earned.'),
+        x('Single-leg calf raise',3,'12 per leg',''),
+        x('Cable face pull',3,'15',''),
+        x('Dead bug',3,'10 per side','') ],
+    B:[ x('KB deadlift',3,'12','44 lb KB. More reps instead of more weight.'),
+        x('KB swing',3,'12','18 lb KB. Crisp hip snap every rep.'),
+        x('Lat pulldown, neutral grip',3,'10–12','Add a plate if she hit 12 on every set.'),
+        x('Split squat',3,'8 per leg','Light DBs. Let go of the rack if balance is solid.'),
+        x('Half-kneeling DB press',3,'10 per side','Next DB size only if pain-free.'),
+        x('DB glute bridge',3,'12','Heavier DB.'),
+        x('Farmer carry',3,'40 sec','') ],
+    C:[ x('Pistol squat to bench',3,'6 per leg','Lighter grip on the rack. Control the sit — no plopping.'),
+        x('Incline push-up on the racked bar',3,'10','Lower the bar one notch if form holds.'),
+        x('Single-arm cable row',3,'10 per side',''),
+        x('Cable pull-through',3,'12',''),
+        x('90/90 external rotation',2,'15 per side',''),
+        x('Suitcase carry',3,'40 sec per side',''),
+        x('Side plank from the knees',3,'25 sec per side','Try a full side plank.') ]
+  },
+  { // WEEK 4
+    title:'Week 4 · Consolidate and check',
+    focus:'3 sets at 7/10 effort (about 3 reps left). Small weight bumps only where earned. End of the week: check if she’s ready for Phase 2.',
+    effort:'Effort 7/10',
+    walkNote:'Hold 10% and aim for the faster end of the speed range.',
+    A:[ x('Goblet squat to bench',3,'10','Small bump if week 3 was clean.'),
+        x('DB floor press, neutral grip',3,'10',''),
+        x('Seated cable row, neutral handle',3,'10','Heavier than week 3.'),
+        x('DB Romanian deadlift',3,'10',''),
+        x('Single-leg calf raise',3,'15 per leg',''),
+        x('Cable face pull',3,'15',''),
+        x('Dead bug',3,'10 per side','') ],
+    B:[ x('KB deadlift',3,'12','Or 2 DBs (30–35 lb each) if the 44 lb KB is easy.'),
+        x('KB swing',3,'15','18 lb KB. The 44 lb comes in Phase 2.'),
+        x('Lat pulldown, neutral grip',3,'10',''),
+        x('Split squat',3,'10 per leg','DBs, no rack if balance is solid.'),
+        x('Half-kneeling DB press',3,'10 per side','Only add weight if pain-free.'),
+        x('DB glute bridge',3,'12',''),
+        x('Farmer carry',3,'40 sec','Heavier: 25–30 lb each hand.') ],
+    C:[ x('Pistol squat to bench',3,'8 per leg','Try it hands-free if balance is solid.'),
+        x('Incline push-up on the racked bar',3,'10','Bar one notch lower if form holds.'),
+        x('Single-arm cable row',3,'12 per side',''),
+        x('Cable pull-through',3,'12',''),
+        x('90/90 external rotation',2,'15 per side',''),
+        x('Suitcase carry',3,'40 sec per side',''),
+        x('Side plank',3,'30 sec per side','Full side plank if possible.') ]
+  }
+];
+
+const SCHEDULE = {
+  mon:{type:'lift', key:'A', name:'Lift A', sub:'Squat · press · row'},
+  tue:{type:'walk', name:'Incline walk', sub:'30 min at 10% incline'},
+  wed:{type:'lift', key:'B', name:'Lift B', sub:'Hinge · pulldown · carry'},
+  thu:{type:'walk', name:'Incline walk', sub:'30 min at 10% incline'},
+  fri:{type:'lift', key:'C', name:'Lift C', sub:'Single-leg squat · push-up · core'},
+  sat:{type:'rest', name:'Rest day', sub:'Recover'},
+  sun:{type:'rest', name:'Rest day', sub:'Recover'}
+};
+
+const WARMUP = [
+  '3 min easy cardio (walk, bike or rower)',
+  'Cat-cow × 8',
+  'Open books × 6 per side',
+  'Glute bridge × 10',
+  'Bodyweight squat to the bench × 8',
+  'Light cable external rotation × 12 per side',
+  '1–2 lighter ramp-up sets of the first exercise'
+];
+
+const READY = [
+  'Technique is consistent on every main lift',
+  'Right shoulder is stable: pain 3/10 or less, nothing lingering the next day',
+  'Soreness clears within 48 hours'
+];
+
+/* ============ STATE ============ */
+const KEY = 'ept-foundation-v1';
+let S = load();
+function load(){
+  try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s && s.log) return s; }catch(e){}
+  return {log:{}, sel:null, start:'', ready:{}};
+}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+const id = (w,d) => `w${w}-${d}`;
+const L = (w,d) => (S.log[id(w,d)] ||= {});
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function todayKey(){ return DAYS[(new Date().getDay()+6)%7]; }
+function currentWeek(){
+  if(!S.start) return null;
+  const st = new Date(S.start+'T00:00:00'), now = new Date(); now.setHours(0,0,0,0);
+  const days = Math.floor((now - st)/86400000);
+  if(days < 0) return 1;
+  return Math.min(4, Math.floor(days/7)+1);
+}
+function isDone(w,d){
+  const t = SCHEDULE[d].type;
+  if(t==='rest') return false;
+  return !!(S.log[id(w,d)] && S.log[id(w,d)].done);
+}
+function weekCount(w){ return DAYS.filter(d => isDone(w,d)).length; }
+
+let sel = S.sel || {w: currentWeek() || 1, d: todayKey()};
+if(currentWeek()) sel = {w: currentWeek(), d: todayKey()};
+
+/* ============ RENDER ============ */
+const $ = q => document.querySelector(q);
+
+function renderWeeks(){
+  const cw = currentWeek();
+  $('#weeks').innerHTML = WEEKS.map((_,i) => {
+    const w=i+1;
+    return `<button class="wk ${w===sel.w?'on':''} ${w===cw?'now':''}" data-w="${w}"><b>Week ${w}</b><span>${weekCount(w)}/5 done</span></button>`;
+  }).join('');
+}
+
+function renderDays(){
+  const tk = todayKey(), cw = currentWeek();
+  $('#days').innerHTML = DAYS.map(d => {
+    const t = SCHEDULE[d].type;
+    const today = d===tk && (!cw || cw===sel.w);
+    return `<button class="day ${t} ${d===sel.d?'on':''} ${isDone(sel.w,d)?'done':''}" data-d="${d}" aria-label="${DAY_FULL[d]}">
+      ${today?'<span class="today">TODAY</span>':''}<div class="dn">${DAY_NAMES[d]}</div><div class="dt"></div></button>`;
+  }).join('');
+}
+
+function prevWeight(w, d, name){
+  for(let pw = w-1; pw >= 1; pw--){
+    const lg = S.log[id(pw,d)]; if(!lg || !lg.wt) continue;
+    const ex = WEEKS[pw-1][SCHEDULE[d].key];
+    const i = ex.findIndex(e => e.name === name);
+    if(i>=0 && lg.wt[i]) return {w:pw, v:lg.wt[i]};
+  }
+  return null;
+}
+
+function renderView(){
+  const W = WEEKS[sel.w-1], s = SCHEDULE[sel.d];
+  let h = `<div class="card weekbar"><h2>${esc(W.title)}</h2><p>${esc(W.focus)}</p></div>`;
+  if(s.type==='lift') h += liftView(W, s);
+  else if(s.type==='walk') h += walkView(W, s);
+  else h += restView();
+  if(sel.w===4 && sel.d==='fri') h += readyView();
+  $('#view').innerHTML = h;
+  if(s.type==='lift'){ const n = L(sel.w,sel.d).note; const ta = $('#note'); if(ta) ta.value = n || ''; }
+  if(s.type==='walk') tickWalk();
+}
+
+function liftView(W, s){
+  const lg = L(sel.w, sel.d), ex = W[s.key];
+  const total = ex.reduce((a,e)=>a+e.sets,0);
+  const doneSets = ex.reduce((a,e,i)=>a+((lg.sets&&lg.sets[i])||[]).filter(Boolean).length,0);
+  const pct = Math.round(doneSets/total*100);
+  let h = `<div class="card"><div class="sess-h"><div style="flex:1">
+      <span class="tag lift">${DAY_FULL[sel.d]} · Strength</span>
+      <h2>${s.name}</h2><p>${s.sub} · ${W.effort} · about 45–60 min</p></div></div>
+      <div class="bar"><i style="width:${pct}%"></i></div>
+      <div class="hint">${doneSets} of ${total} sets done · Lower every rep over 3 sec</div></div>`;
+  h += `<details class="warm"><summary>Warm-up · 8 min</summary><ol>${WARMUP.map(x=>`<li>${x}</li>`).join('')}</ol></details>`;
+  ex.forEach((e,i) => {
+    const sets = (lg.sets&&lg.sets[i]) || [];
+    const complete = sets.filter(Boolean).length >= e.sets;
+    const wt = (lg.wt&&lg.wt[i]) || '';
+    const pw = prevWeight(sel.w, sel.d, e.name);
+    const bw = /^(Dead bug|Side plank|Incline push-up|Pistol squat|Single-leg calf raise)/.test(e.name);
+    h += `<div class="card ex ${complete?'complete':''}">
+      <div class="ex-top"><div class="num">${complete?'✓':i+1}</div><div style="flex:1">
+        <div class="ex-name">${esc(e.name)}</div>
+        <div class="ex-rx">${e.sets} × ${esc(e.reps)}</div>
+        ${e.note?`<div class="ex-note">${esc(e.note)}</div>`:''}
+      </div></div>
+      <div class="ex-row">
+        ${bw ? '<span class="hint" style="margin:0">Bodyweight</span>' :
+        `<label class="wt"><input type="text" inputmode="decimal" placeholder="—" value="${esc(wt)}" data-wt="${i}" aria-label="Weight for ${esc(e.name)}"><span>lb</span></label>`}
+        <div class="sets">${Array.from({length:e.sets},(_,k)=>`<button class="set ${sets[k]?'on':''}" data-ex="${i}" data-set="${k}" aria-label="Set ${k+1}">${sets[k]?'✓':k+1}</button>`).join('')}</div>
+        ${!bw && pw ? `<div class="last">Week ${pw.w}: ${esc(pw.v)} lb</div>`:''}
+      </div></div>`;
+  });
+  const pain = lg.pain ?? 0;
+  h += `<div class="card">
+      <div class="lbl"><span>Right shoulder pain today</span><output id="painOut">${pain}/10</output></div>
+      <input type="range" min="0" max="10" step="1" value="${pain}" id="pain" aria-label="Shoulder pain 0 to 10">
+      <div class="scale"><span>0 none</span><span>3 OK limit</span><span>10 worst</span></div>
+      ${pain>3?'<div class="hint" style="color:#C2410C">Above 3: go lighter, shorten the range, or skip that exercise next time.</div>':''}
+      <div class="lbl" style="margin-top:14px"><span>Notes for coach</span></div>
+      <textarea id="note" placeholder="How did it feel? Anything that bothered you?"></textarea>
+    </div>`;
+  h += lg.done
+    ? `<button class="btn done" id="doneBtn">✓ Session complete — tap to undo</button>`
+    : `<button class="btn" id="doneBtn">Mark session complete</button>`;
+  return h;
+}
+
+/* Walk timer: {acc: ms accumulated, start: timestamp or null} */
+function walkState(){ const lg = L(sel.w, sel.d); return (lg.walk ||= {acc:0, start:null}); }
+function walkElapsed(ws){ return ws.acc + (ws.start ? Date.now()-ws.start : 0); }
+function walkView(W, s){
+  const lg = L(sel.w, sel.d);
+  return `<div class="card"><div class="sess-h"><div style="flex:1">
+      <span class="tag walk">${DAY_FULL[sel.d]} · Cardio</span>
+      <h2>${s.name}</h2><p>Breathing harder but still able to talk. No holding the handrails.</p></div></div>
+      <div class="ring">
+        <svg width="230" height="230" viewBox="0 0 230 230"><circle cx="115" cy="115" r="100" fill="none" stroke="#EEF1F5" stroke-width="14"/>
+        <circle id="arc" cx="115" cy="115" r="100" fill="none" stroke="#2C7CC4" stroke-width="14" stroke-linecap="round" stroke-dasharray="628.3" stroke-dashoffset="628.3"/></svg>
+        <div class="t"><div><b id="wTime">30:00</b><small id="wSub">remaining</small></div></div>
+      </div>
+      <div class="walkspecs">
+        <div class="spec"><b>10%</b><span>incline</span></div>
+        <div class="spec"><b>2.8–3.3</b><span>mph</span></div>
+        <div class="spec"><b>30</b><span>minutes</span></div>
+      </div>
+      ${W.walkNote?`<div class="hint" style="margin:-4px 0 14px">${esc(W.walkNote)}</div>`:''}
+      <div class="row2"><button class="btn blue" id="wGo">Start</button><button class="btn ghost" id="wReset">Reset</button></div>
+    </div>
+    ${lg.done
+      ? `<button class="btn done" id="doneBtn">✓ Walk complete — tap to undo</button>`
+      : `<button class="btn" id="doneBtn">Mark walk complete</button>`}`;
+}
+function restView(){
+  return `<div class="card"><div class="sess-h"><div style="flex:1">
+    <span class="tag rest">${DAY_FULL[sel.d]}</span><h2>Rest day</h2>
+    <p>Recovery is where the strength gets built. An easy walk, stretching or time outside is fine. Aim for 7,000–10,000 steps.</p></div></div></div>`;
+}
+function readyView(){
+  return `<div class="card"><h2 style="font-size:17px;margin-bottom:6px">Ready for Phase 2?</h2>
+    <div class="hint" style="margin:0 0 6px">All three should be true. If not, repeat week 4.</div>
+    ${READY.map((r,i)=>`<label class="check"><input type="checkbox" data-ready="${i}" ${S.ready[i]?'checked':''}><span>${r}</span></label>`).join('')}
+  </div>`;
+}
+
+function renderAll(){ renderWeeks(); renderDays(); renderView(); S.sel = sel; save(); }
+
+/* ============ EVENTS ============ */
+$('#weeks').addEventListener('click', e => { const b = e.target.closest('[data-w]'); if(!b) return; sel.w = +b.dataset.w; stopRest(); renderAll(); window.scrollTo({top:0}); });
+$('#days').addEventListener('click', e => { const b = e.target.closest('[data-d]'); if(!b) return; sel.d = b.dataset.d; stopRest(); renderAll(); window.scrollTo({top:0}); });
+
+$('#view').addEventListener('click', e => {
+  const setB = e.target.closest('.set');
+  if(setB){
+    const i = +setB.dataset.ex, k = +setB.dataset.set, lg = L(sel.w, sel.d);
+    lg.sets ||= {}; lg.sets[i] ||= [];
+    lg.sets[i][k] = !lg.sets[i][k];
+    if(lg.sets[i][k]){
+      const ex = WEEKS[sel.w-1][SCHEDULE[sel.d].key];
+      const allSets = ex.every((x,j)=>((lg.sets[j]||[]).filter(Boolean).length>=x.sets));
+      if(allSets){ lg.done = true; stopRest(); }
+      else startRest(i<2 ? 90 : 60, ex[i].name);
+    }
+    save(); const y = window.scrollY; renderAll(); window.scrollTo({top:y});
+    return;
+  }
+  if(e.target.closest('#doneBtn')){ const lg = L(sel.w, sel.d); lg.done = !lg.done; save(); const y=window.scrollY; renderAll(); window.scrollTo({top:y}); return; }
+  if(e.target.closest('#wGo')){
+    const ws = walkState();
+    if(ws.start){ ws.acc += Date.now()-ws.start; ws.start=null; releaseWake(); }
+    else { if(walkElapsed(ws) >= WALK_MIN*60000) ws.acc = 0; ws.start = Date.now(); requestWake(); }
+    save(); tickWalk(); return;
+  }
+  if(e.target.closest('#wReset')){ const lg=L(sel.w,sel.d); lg.walk={acc:0,start:null}; releaseWake(); save(); tickWalk(); return; }
+});
+$('#view').addEventListener('input', e => {
+  const t = e.target, lg = L(sel.w, sel.d);
+  if(t.dataset.wt !== undefined){ lg.wt ||= {}; lg.wt[t.dataset.wt] = t.value.trim(); save(); }
+  else if(t.id==='pain'){ lg.pain = +t.value; $('#painOut').textContent = t.value+'/10'; save(); }
+  else if(t.id==='note'){ lg.note = t.value; save(); }
+});
+$('#view').addEventListener('change', e => {
+  const t = e.target;
+  if(t.id==='pain') { const y=window.scrollY; renderView(); window.scrollTo({top:y}); }
+  if(t.dataset.ready !== undefined){ S.ready[t.dataset.ready] = t.checked; save(); }
+});
+
+/* Walk timer tick */
+function tickWalk(){
+  if(SCHEDULE[sel.d].type!=='walk' || !$('#wTime')) return;
+  const ws = walkState(), total = WALK_MIN*60000;
+  let el = walkElapsed(ws);
+  if(el >= total && ws.start){
+    ws.acc = total; ws.start = null; L(sel.w,sel.d).done = true; save(); releaseWake(); buzz();
+    renderAll(); return;
+  }
+  el = Math.min(el,total);
+  const rem = Math.ceil((total-el)/1000);
+  $('#wTime').textContent = `${Math.floor(rem/60)}:${String(rem%60).padStart(2,'0')}`;
+  $('#wSub').textContent = el>=total ? 'done — nice work' : ws.start ? 'remaining' : (el>0 ? 'paused' : 'remaining');
+  $('#arc').setAttribute('stroke-dashoffset', (628.3*(1-el/total)).toFixed(1));
+  $('#wGo').textContent = ws.start ? 'Pause' : (el>0 && el<total ? 'Resume' : 'Start');
+}
+setInterval(tickWalk, 250);
+
+let wake = null;
+async function requestWake(){ try{ wake = await navigator.wakeLock.request('screen'); }catch(e){} }
+function releaseWake(){ try{ wake && wake.release(); }catch(e){} wake = null; }
+document.addEventListener('visibilitychange', () => { const ws = SCHEDULE[sel.d].type==='walk' && walkState(); if(document.visibilityState==='visible' && ws && ws.start) requestWake(); });
+function buzz(){ try{ navigator.vibrate && navigator.vibrate([200,100,200]); }catch(e){} }
+
+/* Rest timer */
+let rest = {end:0, iv:null};
+function startRest(sec, name){
+  rest.end = Date.now() + sec*1000;
+  $('#restL').textContent = 'Rest · next set of ' + name;
+  $('#rest').classList.remove('end'); $('#rest').classList.add('show');
+  clearInterval(rest.iv); rest.iv = setInterval(tickRest, 250); tickRest();
+}
+function tickRest(){
+  const r = Math.ceil((rest.end - Date.now())/1000);
+  if(r <= 0){
+    $('#restT').textContent = 'Go'; $('#restL').textContent = 'Rest is up — next set';
+    if(!$('#rest').classList.contains('end')){ $('#rest').classList.add('end'); buzz(); }
+    if(r < -8) stopRest();
+    return;
+  }
+  $('#restT').textContent = `${Math.floor(r/60)}:${String(r%60).padStart(2,'0')}`;
+}
+function stopRest(){ clearInterval(rest.iv); $('#rest').classList.remove('show'); }
+$('#restSkip').onclick = stopRest;
+$('#restAdd').onclick = () => { rest.end = Math.max(rest.end, Date.now()) + 15000; $('#rest').classList.remove('end'); tickRest(); };
+
+/* Guide sheet */
+function openSheet(){
+  $('#sheet').innerHTML = `<div class="grab"></div><h2>Program guide</h2>
+    <div class="card"><h3>Weekly layout</h3><ul>
+      <li><b>Mon</b> Lift A · <b>Wed</b> Lift B · <b>Fri</b> Lift C</li>
+      <li><b>Tue</b> and <b>Thu</b> 30-min incline walk</li>
+      <li><b>Sat–Sun</b> Rest. Light walks are fine.</li></ul></div>
+    <div class="card"><h3>Every lifting day</h3><ul>
+      <li>Do the 8-minute warm-up first.</li>
+      <li>Lower each rep over 3 seconds.</li>
+      <li>Tap a set circle when it's done. A rest timer starts: 90 sec on the first two exercises, 60 sec on the rest.</li>
+      <li>Log the weight you used. Next week shows it as a reminder.</li></ul></div>
+    <div class="card"><h3>Right shoulder rules</h3><ul>
+      <li>Discomfort up to 3/10 that's gone by the next day is OK.</li>
+      <li>Sharper pain or above 3/10: go lighter, shorten the range, or skip that exercise.</li>
+      <li>Shoulder worse the next morning: cut upper-body sets in half next session.</li></ul></div>
+    <div class="card"><h3>When to add weight</h3>
+      <p>When every rep of every set is clean at the top of the range, add weight next time: +5–10 lb lower body, +2.5–5 lb or the next dumbbell size upper body.</p></div>
+    <div class="card"><h3>Program start date</h3>
+      <p style="margin-bottom:8px">Set the Monday she started and the app opens to the right week and day automatically.</p>
+      <input type="date" id="startDate" value="${esc(S.start)}"></div>
+    <div class="row2" style="margin-top:4px"><button class="btn ghost" id="closeSheet">Close</button><button class="btn ghost danger" id="resetAll">Reset all data</button></div>`;
+  $('#sheet').classList.add('show'); $('#sheetBg').classList.add('show');
+}
+function closeSheet(){ $('#sheet').classList.remove('show'); $('#sheetBg').classList.remove('show'); }
+$('#infoBtn').onclick = openSheet;
+$('#sheetBg').onclick = closeSheet;
+$('#sheet').addEventListener('click', e => {
+  if(e.target.id==='closeSheet') closeSheet();
+  if(e.target.id==='resetAll' && confirm('Erase all logged weights, sets and notes?')){ S = {log:{}, sel:null, start:S.start, ready:{}}; save(); closeSheet(); renderAll(); }
+});
+$('#sheet').addEventListener('change', e => {
+  if(e.target.id==='startDate'){ S.start = e.target.value; const cw = currentWeek(); if(cw) sel = {w:cw, d:todayKey()}; save(); renderAll(); }
+});
+
+renderAll();
+
+if('serviceWorker' in navigator){ window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{})); }
+</script>
+</body>
+</html>
